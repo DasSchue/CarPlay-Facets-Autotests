@@ -1,0 +1,77 @@
+import csv
+import os.path
+from pathlib import Path
+
+
+z=0
+y=1
+x=str(y)
+while y<65:
+    #if os.path.isfile("cycler 1\cycle_"+x+"\charge.csv") == T:
+        
+    if os.path.isfile("LN3 Cycler 3-2\cycle_"+x+"\charge.csv") == True:
+        print("tango")
+        with open("LN3 Cycler 3-2\cycle_"+x+"\charge.csv", newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            
+            for row in reader:
+                row.append(x)
+                
+                with open("combined.csv","a", newline="") as newcsv:
+                    writer=csv.writer(newcsv)
+                    if row[1]=="voltage":
+                        if y==1:
+                            writer.writerow(row)
+                            z=1
+                        else:
+                            print("CH")
+                    else:
+                        writer.writerow(row)
+    else:
+        print("T")
+        
+                #print(writer)
+            
+    if os.path.isfile("LN3 Cycler 3-2\cycle_"+x+"\discharge.csv") == True:
+        print("lima")
+        with open("LN3 Cycler 3-2\cycle_"+x+"\discharge.csv", newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                row.append(x)
+                with open("combined.csv","a", newline="") as newcsv:
+                    writer=csv.writer(newcsv)
+                    if row[1]=="voltage":
+                        if y==1 and z==0:
+                            writer.writerow(row)
+                        else:
+                            print("DisCH")
+                    else:
+                        writer.writerow(row)
+                #print(writer)
+            
+    else:
+        print("L")
+
+    if os.path.isfile("LN3 Cycler 3-2\cycle_"+x+"\summary.csv") == True:
+        print("Zulu")
+        with open("LN3 Cycler 3-2\cycle_"+x+"\summary.csv", newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                row.append(x)
+                with open("SumCombined.csv","a", newline="") as newcsv:
+                    writer=csv.writer(newcsv)
+                    if row[1]=="discharge_start":
+                        if y==1 and z==0:
+                            writer.writerow(row)
+                        else:
+                            print("DisChST")
+                    else:
+                        writer.writerow(row)
+                #print(writer)
+            
+    else:
+        print("z")
+    
+    y+=1
+    x=str(y)
+    print(x)
